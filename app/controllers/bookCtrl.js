@@ -2,20 +2,12 @@
 
 console.log("bookCtrl");
 
-app.controller("BookController", function($scope, $http, $q) {
+app.controller("BookController", function($scope, GuideFactory) {
 
     $scope.guides = '';
-
-    (function() {
-        $q((resolve, reject) => {
-            $http.get('../../data/guides.json')
-                .then((response) => {
-                    console.log("data", response.data.guides);
-                    $scope.guides = response.data.guides;
-                })
-                .catch((e) => {
-                    console.log("error", e);
-                });
-        });
-    })();
+    GuideFactory.getGuides()
+    .then((response) => {
+        console.log("response", response);
+        $scope.guides = response.guides;
+    });
 });
